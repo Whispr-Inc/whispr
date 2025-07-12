@@ -1,4 +1,4 @@
-package org.whispr.social.config;
+package org.whispr.core.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.whispr.social.security.SecurityCustomizer;
+import org.whispr.core.security.SecurityCustomizer;
 
 import java.util.Arrays;
 import java.util.List;

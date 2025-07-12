@@ -1,4 +1,4 @@
-package org.whispr.social.constant;
+package org.whispr.core.constant;
 
 import lombok.experimental.UtilityClass;
 

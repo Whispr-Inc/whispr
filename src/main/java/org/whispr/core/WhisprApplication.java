@@ -1,4 +1,4 @@
-package org.whispr.social;
+package org.whispr.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

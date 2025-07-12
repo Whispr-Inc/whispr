@@ -1,9 +1,9 @@
-package org.whispr.social.util;
+package org.whispr.core.util;
 
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import org.hibernate.proxy.HibernateProxy;
-import org.whispr.social.entity.BaseEntity;
+import org.whispr.core.entity.BaseEntity;
 
 @UtilityClass
 public class PersistenceUtils {

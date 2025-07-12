@@ -1,9 +1,9 @@
-package org.whispr.social.entity;
+package org.whispr.core.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.whispr.social.util.PersistenceUtils;
+import org.whispr.core.util.PersistenceUtils;
 
 import java.io.Serial;
 import java.io.Serializable;

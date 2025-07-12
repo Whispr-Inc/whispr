@@ -1,4 +1,4 @@
-package org.whispr.social.config;
+package org.whispr.core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

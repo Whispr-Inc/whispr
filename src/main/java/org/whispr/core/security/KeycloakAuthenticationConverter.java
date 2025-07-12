@@ -1,4 +1,4 @@
-package org.whispr.social.security;
+package org.whispr.core.security;
 
 import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
