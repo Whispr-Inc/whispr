@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "member")
-public class Member extends BaseEntity<UUID> {
+public class Participant extends BaseEntity<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,7 +21,7 @@ public class Member extends BaseEntity<UUID> {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "chat_id", nullable = false)
-    private Chat chat;
+    private Conversation conversation;
 
     @Column(name = "account_id", nullable = false)
     private UUID accountId;

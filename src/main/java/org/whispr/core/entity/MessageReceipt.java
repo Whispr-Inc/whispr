@@ -24,7 +24,7 @@ public class MessageReceipt extends BaseEntity<UUID> {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "receiver_id", nullable = false)
-    private Member receiver;
+    private Participant receiver;
 
     @Column(name = "read_at")
     private Instant readAt;

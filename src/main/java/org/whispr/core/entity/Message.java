@@ -25,11 +25,11 @@ public class Message extends BaseEntity<UUID> {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "chat_id", nullable = false)
-    private Chat chat;
+    private Conversation conversation;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sender_id", nullable = false)
-    private Member sender;
+    private Participant sender;
 
     @Column(name = "content", nullable = false, length = Integer.MAX_VALUE)
     private String content;
