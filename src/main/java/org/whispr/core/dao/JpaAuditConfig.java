@@ -1,4 +1,4 @@
-package org.whispr.core.config;
+package org.whispr.core.dao;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

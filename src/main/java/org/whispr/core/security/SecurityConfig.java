@@ -1,4 +1,4 @@
-package org.whispr.core.config;
+package org.whispr.core.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,20 +11,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-import org.whispr.core.security.SecurityCustomizer;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final Converter<Jwt, AbstractAuthenticationToken> jwtTokenConverter;
-    private final List<SecurityCustomizer> securityCustomizers;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,13 +27,6 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(authorize -> {
-                // Apply custom security customizers
-                // This allows for dynamic security configurations based on the provided customizers
-                for (SecurityCustomizer customizer : securityCustomizers) {
-                    customizer.customize(authorize);
-                }
-
-                // Apply default security customization
                 authorize
                     .requestMatchers("/actuator/**").permitAll()
                     .anyRequest().authenticated();
@@ -51,20 +36,5 @@ public class SecurityConfig {
             );
 
         return http.build();
-    }
-
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-        // Configure CORS settings
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");       // Allow all origins
-        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
     }
 }

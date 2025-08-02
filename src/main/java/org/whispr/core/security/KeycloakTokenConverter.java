@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-public class KeycloakAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
+public class KeycloakTokenConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
     JwtGrantedAuthoritiesConverter defaultConverter = new JwtGrantedAuthoritiesConverter();
 
@@ -32,9 +32,6 @@ public class KeycloakAuthenticationConverter implements Converter<Jwt, AbstractA
         );
     }
 
-    /**
-     * Extracts resource roles from the JWT token.
-     */
     @SuppressWarnings("unchecked")
     private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
         var resourceAccess = jwt.getClaimAsMap("resource_access");

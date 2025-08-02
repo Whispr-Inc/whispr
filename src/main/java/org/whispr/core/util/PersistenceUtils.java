@@ -3,7 +3,7 @@ package org.whispr.core.util;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import org.hibernate.proxy.HibernateProxy;
-import org.whispr.core.entity.BaseEntity;
+import org.whispr.core.dao.entity.BaseEntity;
 
 @UtilityClass
 public class PersistenceUtils {

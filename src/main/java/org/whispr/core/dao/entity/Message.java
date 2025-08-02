@@ -1,4 +1,4 @@
-package org.whispr.core.entity;
+package org.whispr.core.dao.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
