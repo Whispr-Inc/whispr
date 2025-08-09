@@ -1,0 +1,50 @@
+# Development environment for Whispr application using Docker Compose
+name: whispr
+
+services:
+
+  # ----------------------------
+  # Whispr Application Services
+  # ----------------------------
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: whispr_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: on-failure
+
+
+  # -----------------------------
+  # Keycloak Identity Provider
+  # -----------------------------
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin123
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    ports:
+      - "9092:8080"
+    command: start-dev
+    restart: on-failure
+
+
+# ----------------------------------
+# Network and Volume Configurations
+# ----------------------------------
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  keycloak_data:

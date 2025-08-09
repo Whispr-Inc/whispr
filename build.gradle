@@ -5,12 +5,13 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
-group = 'org.whispr'
-version = '0.0.4-SNAPSHOT'
+group = 'com.whispr'
+version = '0.0.5-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(24)
+        vendor = JvmVendorSpec.AZUL
     }
 }
 
@@ -20,6 +21,7 @@ repositories {
 
 ext {
     set('springCloudVersion', "2025.0.0")
+    set('springdocOpenApiVersion', "2.8.9")
 }
 
 dependencies {
@@ -31,6 +33,9 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // TODO: Fix vulnerability in springdoc-openapi
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
 
     implementation 'org.flywaydb:flyway-database-postgresql'
     runtimeOnly 'org.postgresql:postgresql'
@@ -45,6 +50,7 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        mavenBom "org.springdoc:springdoc-openapi-bom:${springdocOpenApiVersion}"
     }
 }
 

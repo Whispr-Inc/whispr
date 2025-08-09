@@ -1,0 +1,114 @@
+com.whispr
+├── WhisprApplication.java
+├── config/
+│   ├── WebSocketConfig.java
+│   ├── SecurityConfig.java
+│   ├── RedisConfig.java
+│   ├── DatabaseConfig.java
+│   ├── CloudStorageConfig.java
+│   └── WhisprProperties.java
+├── controller/
+│   ├── rest/
+│   │   ├── AuthController.java
+│   │   ├── UserController.java
+│   │   ├── ConversationController.java
+│   │   ├── MessageController.java
+│   │   ├── MediaController.java
+│   │   └── AdminController.java
+│   └── websocket/
+│       ├── WhisprWebSocketController.java
+│       ├── PresenceController.java
+│       └── NotificationController.java
+├── service/
+│   ├── AuthService.java
+│   ├── UserService.java
+│   ├── ConversationService.java
+│   ├── MessageService.java
+│   ├── MediaService.java
+│   ├── NotificationService.java
+│   ├── ModerationService.java
+│   ├── PresenceService.java
+│   └── WhisprCoreService.java
+├── repository/
+│   ├── UserRepository.java
+│   ├── ConversationRepository.java
+│   ├── ParticipantRepository.java
+│   ├── MessageRepository.java
+│   ├── ReactionRepository.java
+│   ├── AttachmentRepository.java
+│   ├── ReadReceiptRepository.java
+│   └── MembershipChangeLogRepository.java
+├── entity/
+│   ├── User.java
+│   ├── Conversation.java
+│   ├── Participant.java
+│   ├── Message.java
+│   ├── Reaction.java
+│   ├── Attachment.java
+│   ├── ReadReceipt.java
+│   └── MembershipChangeLog.java
+├── dto/
+│   ├── request/
+│   │   ├── WhisprAuthRequest.java
+│   │   ├── SendMessageRequest.java
+│   │   ├── CreateConversationRequest.java
+│   │   ├── JoinChannelRequest.java
+│   │   └── UserProfileRequest.java
+│   ├── response/
+│   │   ├── WhisprAuthResponse.java
+│   │   ├── MessageResponse.java
+│   │   ├── ConversationResponse.java
+│   │   ├── UserResponse.java
+│   │   ├── ChannelResponse.java
+│   │   └── WhisprApiResponse.java
+│   └── websocket/
+│       ├── WhisprMessage.java
+│       ├── TypingIndicator.java
+│       ├── PresenceUpdate.java
+│       └── NotificationMessage.java
+├── enums/
+│   ├── ConversationType.java
+│   ├── MessageType.java
+│   ├── ParticipantRole.java
+│   ├── UserStatus.java
+│   ├── NotificationType.java
+│   └── WhisprEventType.java
+├── exception/
+│   ├── WhisprGlobalExceptionHandler.java
+│   ├── WhisprException.java
+│   ├── UnauthorizedWhisprException.java
+│   ├── ConversationNotFoundException.java
+│   └── MessageValidationException.java
+├── security/
+│   ├── WhisprJwtUtil.java
+│   ├── WhisprAuthenticationFilter.java
+│   ├── WhisprUserDetailsService.java
+│   └── WhisprSecurityContextHelper.java
+├── util/
+│   ├── WhisprDateUtil.java
+│   ├── WhisprValidationUtil.java
+│   ├── WhisprEncryptionUtil.java
+│   ├── WhisprFileUtil.java
+│   └── WhisprConstants.java
+├── aspect/
+│   ├── WhisprRateLimitingAspect.java
+│   ├── WhisprLoggingAspect.java
+│   └── WhisprAuditAspect.java
+├── event/
+│   ├── WhisprEventPublisher.java
+│   ├── WhisprEventListener.java
+│   ├── MessageSentEvent.java
+│   ├── UserJoinedEvent.java
+│   └── ChannelCreatedEvent.java
+└── integration/
+├── pushnotification/
+│   ├── WhisprPushService.java
+│   ├── FcmPushService.java
+│   └── ApnsPushService.java
+├── storage/
+│   ├── WhisprFileStorageService.java
+│   ├── S3StorageService.java
+│   └── LocalStorageService.java
+└── email/
+├── WhisprEmailService.java
+└── EmailTemplateService.java

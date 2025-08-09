@@ -18,7 +18,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   flyway:
-    enabled: false
+    enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
     clean-disabled: false       # Enable clean command
@@ -33,11 +33,5 @@ spring:
         jwt:
           issuer-uri: http://localhost:9092/realms/whispr
 
-springdoc:
-  default-produces-media-type: application/json
-  show-actuator: true
-  swagger-ui:
-    tags-sorter: alpha
-
 server:
-  port: 8080
+  port: 9090

@@ -1,0 +1,384 @@
+// ===== Main Application Class =====
+// src/main/java/com/chatapp/ChatApplication.java
+package com.chatapp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableAsync;
+
+@SpringBootApplication
+@EnableCaching
+@EnableAsync
+public class ChatApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ChatApplication.class, args);
+    }
+}
+
+// ===== Enums =====
+// src/main/java/com/chatapp/enums/ConversationType.java
+package com.chatapp.enums;
+
+public enum ConversationType {
+    PRIVATE,    // 1-to-1 chat
+    GROUP,      // Group chat
+    CHANNEL,    // Broadcast with some interactivity
+    BROADCAST   // One-way communication
+}
+
+// src/main/java/com/chatapp/enums/MessageType.java
+package com.chatapp.enums;
+
+public enum MessageType {
+    TEXT,
+    IMAGE,
+    VIDEO,
+    AUDIO,
+    FILE,
+    SYSTEM,     // System messages like "User joined"
+    LOCATION
+}
+
+// src/main/java/com/chatapp/enums/ParticipantRole.java
+package com.chatapp.enums;
+
+public enum ParticipantRole {
+    OWNER,
+    ADMIN,
+    MODERATOR,
+    MEMBER,
+    SUBSCRIBER  // For channels/broadcasts
+}
+
+// ===== Entity Classes =====
+// src/main/java/com/chatapp/entity/User.java
+package com.chatapp.entity;
+
+import com.chatapp.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Entity
+@Table(name = "users")
+@Data
+@EqualsAndHashCode(callSuper = false)
+@EntityListeners(AuditingEntityListener.class)
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false, length = 50)
+    private String username;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @JsonIgnore
+    @Column(nullable = false)
+    private String passwordHash;
+
+    @Column(length = 100)
+    private String firstName;
+
+    @Column(length = 100)
+    private String lastName;
+
+    private String avatar;
+
+    @Column(length = 500)
+    private String bio;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status = UserStatus.OFFLINE;
+
+    private LocalDateTime lastSeen;
+
+    @Column(nullable = false)
+    private Boolean isActive = true;
+
+    @Column(nullable = false)
+    private Boolean isVerified = false;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Participant> participations;
+}
+
+// src/main/java/com/chatapp/entity/Conversation.java
+package com.chatapp.entity;
+
+import com.chatapp.enums.ConversationType;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Entity
+@Table(name = "conversations")
+@Data
+@EqualsAndHashCode(callSuper = false)
+@EntityListeners(AuditingEntityListener.class)
+public class Conversation {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ConversationType type;
+
+    @Column(length = 100)
+    private String name;
+
+    @Column(length = 500)
+    private String description;
+
+    private String avatar;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by", nullable = false)
+    private User createdBy;
+
+    @Column(unique = true)
+    private String inviteLink;
+
+    @Column(nullable = false)
+    private Boolean isPublic = false;
+
+    @Column(nullable = false)
+    private Boolean requiresApproval = false;
+
+    @Column(nullable = false)
+    private Boolean isActive = true;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    private LocalDateTime lastMessageAt;
+
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
+    private Set<Participant> participants;
+
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
+    private Set<Message> messages;
+}
+
+// src/main/java/com/chatapp/entity/Message.java
+package com.chatapp.entity;
+
+import com.chatapp.enums.MessageType;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Entity
+@Table(name = "messages")
+@Data
+@EqualsAndHashCode(callSuper = false)
+@EntityListeners(AuditingEntityListener.class)
+public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conversation_id", nullable = false)
+    private Conversation conversation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id", nullable = false)
+    private User sender;
+
+    @Column(columnDefinition = "TEXT")
+    private String content;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MessageType messageType = MessageType.TEXT;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reply_to_id")
+    private Message replyTo;
+
+    @Column(columnDefinition = "JSON")
+    private String metadata; // JSON for additional data
+
+    @Column(nullable = false)
+    private Boolean isDeleted = false;
+
+    @Column(nullable = false)
+    private Boolean isEdited = false;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "message", cascade = CascadeType.ALL)
+    private Set<Reaction> reactions;
+
+    @OneToMany(mappedBy = "message", cascade = CascadeType.ALL)
+    private Set<Attachment> attachments;
+
+    @OneToMany(mappedBy = "message", cascade = CascadeType.ALL)
+    private Set<ReadReceipt> readReceipts;
+}
+
+// ===== Repository Layer =====
+// src/main/java/com/chatapp/repository/MessageRepository.java
+package com.chatapp.repository;
+
+import com.chatapp.entity.Message;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Repository
+public interface MessageRepository extends JpaRepository<Message, Long> {
+
+    @Query("SELECT m FROM Message m WHERE m.conversation.id = :conversationId " +
+           "AND m.isDeleted = false ORDER BY m.createdAt DESC")
+    Page<Message> findByConversationIdAndIsDeletedFalse(
+        @Param("conversationId") Long conversationId,
+        Pageable pageable
+    );
+
+    @Query("SELECT m FROM Message m WHERE m.conversation.id = :conversationId " +
+           "AND m.createdAt > :afterTime AND m.isDeleted = false " +
+           "ORDER BY m.createdAt DESC")
+    List<Message> findRecentMessages(
+        @Param("conversationId") Long conversationId,
+        @Param("afterTime") LocalDateTime afterTime
+    );
+
+    @Query("SELECT m FROM Message m WHERE m.sender.id = :userId " +
+           "AND m.content LIKE %:searchText% AND m.isDeleted = false " +
+           "ORDER BY m.createdAt DESC")
+    Page<Message> searchUserMessages(
+        @Param("userId") Long userId,
+        @Param("searchText") String searchText,
+        Pageable pageable
+    );
+
+    Long countByConversationIdAndIsDeletedFalse(Long conversationId);
+
+    @Query("SELECT COUNT(m) FROM Message m WHERE m.conversation.id = :conversationId " +
+           "AND m.createdAt > :since AND m.isDeleted = false")
+    Long countMessagesSince(@Param("conversationId") Long conversationId,
+                           @Param("since") LocalDateTime since);
+}
+
+// ===== Service Layer =====
+// src/main/java/com/chatapp/service/MessageService.java
+package com.chatapp.service;
+
+import com.chatapp.dto.request.MessageRequest;
+import com.chatapp.dto.response.MessageResponse;
+import com.chatapp.entity.Conversation;
+import com.chatapp.entity.Message;
+import com.chatapp.entity.User;
+import com.chatapp.enums.MessageType;
+import com.chatapp.exception.ChatException;
+import com.chatapp.exception.UnauthorizedException;
+import com.chatapp.repository.MessageRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+@Transactional
+public class MessageService {
+
+    private final MessageRepository messageRepository;
+    private final UserService userService;
+    private final ConversationService conversationService;
+    private final SimpMessagingTemplate messagingTemplate;
+    private final ApplicationEventPublisher eventPublisher;
+
+    @RateLimited(rate = "50/minute")
+    public MessageResponse sendMessage(Long conversationId, MessageRequest request, Long senderId) {
+        log.info("Sending message to conversation {} from user {}", conversationId, senderId);
+
+        // Validate user can send message
+        if (!conversationService.canUserSendMessage(conversationId, senderId)) {
+            throw new UnauthorizedException("Cannot send message to this conversation");
+        }
+
+        User sender = userService.findById(senderId);
+        Conversation conversation = conversationService.findById(conversationId);
+
+        // Create and save message
+        Message message = new Message();
+        message.setContent(request.getContent());
+        message.setMessageType(request.getMessageType() != null ? request.getMessageType() : MessageType.TEXT);
+        message.setConversation(conversation);
+        message.setSender(sender);
+        message.setCreatedAt(LocalDateTime.now());
+
+        if (request.getReplyToId() != null) {
+            Message replyTo = findById(request.getReplyToId());
+            message.setReplyTo(replyTo);
+        }
+
+        Message savedMessage = messageRepository.save(message);
+
+        // Convert to response
+        MessageResponse response = convertToResponse(savedMessage);
+
+        // Send real-time notification
+        messagingTemplate.convertAndSend(
+            "/topic/conversation/" + conversationId,
+            response
+        );
+
+        // Publish event for other services
+        eventPublisher.publishEvent(new MessageSentEvent(savedMessage));
+
+        log.info("Message {} sent successfully", savedMessage.getId());
