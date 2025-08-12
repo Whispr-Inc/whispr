@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/whispr_db
-    username: postgres
-    password: postgres
+    username: admin
+    password: admin123
 
   jpa:
     hibernate:
@@ -21,7 +21,7 @@ spring:
     enabled: false
     locations: classpath:db/migration
     baseline-on-migrate: true
-    clean-disabled: false       # Enable clean command
+    clean-disabled: true       # Enable clean command
 
   servlet:
     multipart:

@@ -8,10 +8,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity<ID> implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -22,7 +23,7 @@ public abstract class BaseEntity<ID> implements Serializable {
      * @return the ID of the entity
      */
     // TODO: Consider using a annotation scanning to automatically detect ID fields along with proper caching to avoid reflection overhead.
-    public abstract ID getId();
+    public abstract UUID getId();
 
     @Override
     @SuppressWarnings("unchecked")
@@ -30,7 +31,7 @@ public abstract class BaseEntity<ID> implements Serializable {
         if (this == obj) return true;
         if (obj == null || Hibernate.getClass(this) != Hibernate.getClass(obj)) return false;
 
-        BaseEntity<ID> that = (BaseEntity<ID>) obj;
+        BaseEntity that = (BaseEntity) obj;
         return this.getId() != null && Objects.equals(this.getId(), that.getId());
     }
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/src/main/java/com/whispr/entity/User.java" value="cf4e866b-6dc1-4221-b328-1320bec2ca5b" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V1__whispr_schema_create.sql" value="cf4e866b-6dc1-4221-b328-1320bec2ca5b" />
+  </component>
+</project>
