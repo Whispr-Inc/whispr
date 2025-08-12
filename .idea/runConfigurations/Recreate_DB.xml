@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Recreate DB" type="DatabaseScript">
+    <script-file value="$PROJECT_DIR$/migration/whispr_schema_create.sql" />
+    <script-mode>FILE</script-mode>
+    <data-source id="cf4e866b-6dc1-4221-b328-1320bec2ca5b" />
+    <method v="2" />
+  </configuration>
+</component>

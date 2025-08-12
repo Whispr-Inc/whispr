@@ -1,18 +1,15 @@
 package com.whispr.api;
 
-import com.whispr.entity.User;
-import com.whispr.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/profiles")
 @RequiredArgsConstructor
-public class UserController {
+public class ProfileController {
 
     private final UserService userService;
 
@@ -23,13 +20,7 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUserProfile(Principal principal) {
-        try {
-            UUID uuid = UUID.fromString(principal.getName());
-            User userById = userService.findUserById(uuid);
-            return ResponseEntity.ok(userById);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+        return ResponseEntity.ok(null);
     }
 
     @PutMapping("/me")
