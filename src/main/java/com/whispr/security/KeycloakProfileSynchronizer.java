@@ -3,7 +3,7 @@ package com.whispr.security;
 import com.whispr.dto.KeycloakUserDto;
 import com.whispr.entity.Profile;
 import com.whispr.repository.ProfileRepository;
-import com.whispr.service.KeycloakService;
+import com.whispr.service.KeycloakAdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class KeycloakProfileSynchronizer implements ProfileSynchronizer {
 
-    private final KeycloakService keycloakService;
+    private final KeycloakAdminService keycloakService;
     private final ProfileRepository profileRepository;
     private final TransactionTemplate transactionTemplate;
 
@@ -69,6 +69,10 @@ public class KeycloakProfileSynchronizer implements ProfileSynchronizer {
     }
 
     private void updateProfileFromKeycloak(Profile profile, KeycloakUserDto kcUser) {
-        // TODO: Update the profile fields with data from Keycloak
+        profile.setUsername(kcUser.getUsername());
+        profile.setEmail(kcUser.getEmail());
+        profile.setFirstName(kcUser.getFirstName());
+        profile.setLastName(kcUser.getLastName());
+        profile.setActive(kcUser.isEnabled());
     }
 }

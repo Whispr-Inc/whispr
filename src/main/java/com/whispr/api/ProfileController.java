@@ -1,6 +1,8 @@
 package com.whispr.api;
 
+import com.whispr.entity.Profile;
 import com.whispr.security.CurrentUser;
+import com.whispr.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProfileController {
 
+    private final ProfileService profileService;
+
     @GetMapping("/search")
     public ResponseEntity<?> searchUsers(@RequestParam("q") String query) {
         return ResponseEntity.ok(null);
@@ -19,7 +23,8 @@ public class ProfileController {
 
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUserProfile(@CurrentUser UUID currentUserId) {
-        return ResponseEntity.ok(String.valueOf(currentUserId));
+        Profile profile = profileService.findProfileById(currentUserId);
+        return ResponseEntity.ok(profile);
     }
 
     @PutMapping("/me")
