@@ -23,7 +23,7 @@ public class ProfileService {
      * @return the Profile entity
      * @throws NoSuchElementException if no profile is found with the given ID
      */
-    private Profile findProfileById(UUID profileId) {
+    public Profile findProfileById(UUID profileId) {
         // Fetch the profile from the repository, or synchronize it if not found
         if (!profileRepository.existsById(profileId)) {
             profileSynchronizer.synchronizeProfile(profileId);
