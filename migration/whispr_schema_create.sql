@@ -11,7 +11,7 @@ END $$;
 
 
 CREATE TABLE IF NOT EXISTS profiles (
-    id uuid NOT NULL DEFAULT gen_random_uuid(),
+    id uuid NOT NULL,
     username text NOT NULL UNIQUE,
     email text NOT NULL UNIQUE,
     is_active boolean NOT NULL DEFAULT true,
