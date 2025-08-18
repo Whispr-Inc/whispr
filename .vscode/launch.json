@@ -8,7 +8,8 @@
             "mainClass": "com.whispr.WhisprApplication",
             "projectName": "whispr",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "preLaunchTask": "gradle: build"
         }
     ]
 }

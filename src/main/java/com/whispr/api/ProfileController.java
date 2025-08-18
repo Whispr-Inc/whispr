@@ -21,7 +21,7 @@ public class ProfileController {
 
 
     /// ---------------- SELF PROFILE MANAGEMENT ----------------
-    
+
     @GetMapping("/me")
     public ProfileResponse getCurrentProfile(@CurrentUser UUID currentUserId) {
         return profileService.getProfileForCurrentUser(currentUserId);
@@ -34,9 +34,9 @@ public class ProfileController {
 
 
     /// ---------------- OTHER USER PROFILE MANAGEMENT ----------------
-    
+
     @GetMapping("/{userId}")
-    public ProfileResponse getUserProfile(@PathVariable UUID userId, @CurrentUser UUID currentUserId) {
+    public ProfileResponse getUserProfile(@PathVariable("userId") UUID userId, @CurrentUser UUID currentUserId) {
         return profileService.getProfileBasedOnRelation(userId, currentUserId);
     }
 
