@@ -1,9 +1,12 @@
 package com.whispr.api;
 
+import com.whispr.dto.response.ProfileResponse;
 import com.whispr.entity.Profile;
 import com.whispr.security.CurrentUser;
 import com.whispr.service.ProfileService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +23,8 @@ public class ProfileController {
     /// ---------------- SELF PROFILE MANAGEMENT ----------------
     
     @GetMapping("/me")
-    public ResponseEntity<?> getCurrentProfile(@CurrentUser UUID currentUserId) {
-        Profile profile = profileService.findProfileById(currentUserId);
-        return ResponseEntity.ok(profile);
+    public ProfileResponse getCurrentProfile(@CurrentUser UUID currentUserId) {
+        return profileService.getProfileForCurrentUser(currentUserId);
     }
 
     @PatchMapping("/me")
@@ -34,8 +36,8 @@ public class ProfileController {
     /// ---------------- OTHER USER PROFILE MANAGEMENT ----------------
     
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserProfile(@PathVariable UUID userId) {
-        return ResponseEntity.ok(null);
+    public ProfileResponse getUserProfile(@PathVariable UUID userId, @CurrentUser UUID currentUserId) {
+        return profileService.getProfileBasedOnRelation(userId, currentUserId);
     }
 
     @PostMapping("/{userId}/report")
@@ -54,7 +56,7 @@ public class ProfileController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchUsers(@RequestParam("query") String query) {
+    public ResponseEntity<?> searchUsers(@RequestParam("query") String query, Pageable page) {
         return ResponseEntity.ok(null);
     }
 }

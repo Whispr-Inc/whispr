@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS profiles (
     first_name text,
     last_name text,
     bio text,
-    created_at timestamp with time zone NOT NULL DEFAULT now(),
-    updated_at timestamp with time zone NOT NULL DEFAULT now(),
-    last_seen timestamp with time zone,
+    joined_at timestamptz NOT NULL DEFAULT now(),
+    last_synced_at timestamptz NOT NULL DEFAULT now(),
+    last_seen timestamptz,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );

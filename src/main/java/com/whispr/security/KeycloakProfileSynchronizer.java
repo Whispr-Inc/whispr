@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -74,5 +75,7 @@ public class KeycloakProfileSynchronizer implements ProfileSynchronizer {
         profile.setFirstName(kcUser.getFirstName());
         profile.setLastName(kcUser.getLastName());
         profile.setActive(kcUser.isEnabled());
+        profile.setJoinedAt(kcUser.getCreatedTimestamp() != null ? Instant.ofEpochMilli(kcUser.getCreatedTimestamp()) : Instant.now());
+        profile.setLastSyncedAt(Instant.now());
     }
 }

@@ -13,4 +13,5 @@ public class KeycloakUserDto {
     private String firstName;
     private String lastName;
     private boolean enabled;
+    private Long createdTimestamp;
 }

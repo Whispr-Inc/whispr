@@ -1,6 +1,9 @@
 package com.whispr.service;
 
+import com.whispr.dto.response.ProfileResponse;
 import com.whispr.entity.Profile;
+import com.whispr.enums.VisibilityScope;
+import com.whispr.mapper.ProfileMapper;
 import com.whispr.repository.ProfileRepository;
 import com.whispr.security.ProfileSynchronizer;
 import lombok.RequiredArgsConstructor;
@@ -14,16 +17,32 @@ import java.util.UUID;
 public class ProfileService {
 
     private final ProfileRepository profileRepository;
+    private final ProfileMapper profileMapper;
     private final ProfileSynchronizer profileSynchronizer;
 
-    /**
-     * Retrieves a profile from database by its ID, synchronizing it if it does not exist.
-     *
-     * @param profileId the ID of the profile to retrieve
-     * @return the Profile entity
-     * @throws NoSuchElementException if no profile is found with the given ID
-     */
-    public Profile findProfileById(UUID profileId) {
+    public ProfileResponse getProfileForCurrentUser(UUID currentUserId) {
+        Profile profile = fetchProfileFromDB(currentUserId);
+        return profileMapper.toProfileResponse(profile, VisibilityScope.SELF);
+    }
+
+    public ProfileResponse getProfileBasedOnRelation(UUID requestedUserId, UUID currentUserId) {
+        Profile profile = fetchProfileFromDB(requestedUserId);
+        VisibilityScope visibilityScope = determineVisibilityScope(requestedUserId, currentUserId);
+        return profileMapper.toProfileResponse(profile, visibilityScope);
+    }
+
+    private VisibilityScope determineVisibilityScope(UUID requestedUserId, UUID currentUserId) {
+        if (requestedUserId.equals(currentUserId)) {
+            return VisibilityScope.SELF;
+        }
+
+        // Logic to determine if the user is a friend or public
+        // This could involve checking a friendship table or similar logic
+        // For simplicity, we assume FRIENDS visibility for now
+        return VisibilityScope.FRIENDS; // TODO: This should be replaced with actual logic
+    }
+
+    private Profile fetchProfileFromDB(UUID profileId) throws NoSuchElementException {
         // Fetch the profile from the repository, or synchronize it if not found
         if (!profileRepository.existsById(profileId)) {
             profileSynchronizer.synchronizeProfile(profileId);

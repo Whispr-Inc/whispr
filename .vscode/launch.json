@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-WhisprApplication<whispr>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.whispr.WhisprApplication",
+            "projectName": "whispr",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

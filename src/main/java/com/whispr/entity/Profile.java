@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import java.time.Instant;
 import java.util.UUID;
 
@@ -30,6 +27,9 @@ public class Profile extends BaseEntity<UUID> {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -39,16 +39,11 @@ public class Profile extends BaseEntity<UUID> {
     @Column(name = "bio")
     private String bio;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive = true;
+    @Column(name = "joined_at", nullable = false)
+    private Instant joinedAt;
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
+    @Column(name = "last_synced_at", nullable = false)
+    private Instant lastSyncedAt;
 
     @Column(name = "last_seen")
     private Instant lastSeen;

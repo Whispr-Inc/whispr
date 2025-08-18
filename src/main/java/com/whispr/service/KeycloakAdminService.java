@@ -69,6 +69,7 @@ public class KeycloakAdminService {
         dto.setFirstName(userRep.getFirstName());
         dto.setLastName(userRep.getLastName());
         dto.setEnabled(userRep.isEnabled());
+        dto.setCreatedTimestamp(userRep.getCreatedTimestamp());
         return dto;
     }
 }
