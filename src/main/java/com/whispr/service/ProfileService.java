@@ -42,7 +42,7 @@ public class ProfileService {
         return VisibilityScope.FRIENDS; // TODO: This should be replaced with actual logic
     }
 
-    private Profile fetchProfileFromDB(UUID profileId) throws NoSuchElementException {
+    protected Profile fetchProfileFromDB(UUID profileId) throws NoSuchElementException {
         // Fetch the profile from the repository, or synchronize it if not found
         if (!profileRepository.existsById(profileId)) {
             profileSynchronizer.synchronizeProfile(profileId);
