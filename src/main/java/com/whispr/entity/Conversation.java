@@ -1,8 +1,6 @@
 package com.whispr.entity;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.CreatedBy;
@@ -25,7 +23,7 @@ public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private UUID id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)

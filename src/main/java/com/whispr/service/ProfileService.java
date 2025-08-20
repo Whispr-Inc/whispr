@@ -1,10 +1,10 @@
 package com.whispr.service;
 
-import com.whispr.dto.response.ProfileResponse;
+import com.whispr.dto.response.UserProfileResponse;
 import com.whispr.entity.UserProfile;
 import com.whispr.enums.VisibilityScope;
 import com.whispr.mapper.ProfileMapper;
-import com.whispr.repository.ProfileRepository;
+import com.whispr.repository.UserProfileRepository;
 import com.whispr.security.ProfileSynchronizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,16 +16,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProfileService {
 
-    private final ProfileRepository profileRepository;
+    private final UserProfileRepository profileRepository;
     private final ProfileMapper profileMapper;
     private final ProfileSynchronizer profileSynchronizer;
 
-    public ProfileResponse getProfileForCurrentUser(UUID currentUserId) {
+    public UserProfileResponse getProfileForCurrentUser(UUID currentUserId) {
         UserProfile profile = fetchProfileFromDB(currentUserId);
         return profileMapper.toProfileResponse(profile, VisibilityScope.SELF);
     }
 
-    public ProfileResponse getProfileBasedOnRelation(UUID requestedUserId, UUID currentUserId) {
+    public UserProfileResponse getProfileBasedOnRelation(UUID requestedUserId, UUID currentUserId) {
         UserProfile profile = fetchProfileFromDB(requestedUserId);
         VisibilityScope visibilityScope = determineVisibilityScope(requestedUserId, currentUserId);
         return profileMapper.toProfileResponse(profile, visibilityScope);

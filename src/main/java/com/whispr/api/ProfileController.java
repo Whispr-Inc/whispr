@@ -1,6 +1,6 @@
 package com.whispr.api;
 
-import com.whispr.dto.response.ProfileResponse;
+import com.whispr.dto.response.UserProfileResponse;
 import com.whispr.entity.UserProfile;
 import com.whispr.security.CurrentUser;
 import com.whispr.service.ProfileService;
@@ -23,7 +23,7 @@ public class ProfileController {
     /// ---------------- SELF PROFILE MANAGEMENT ----------------
 
     @GetMapping("/me")
-    public ProfileResponse getCurrentProfile(@CurrentUser UUID currentUserId) {
+    public UserProfileResponse getCurrentProfile(@CurrentUser UUID currentUserId) {
         return profileService.getProfileForCurrentUser(currentUserId);
     }
 
@@ -36,7 +36,7 @@ public class ProfileController {
     /// ---------------- OTHER USER PROFILE MANAGEMENT ----------------
 
     @GetMapping("/{userId}")
-    public ProfileResponse getUserProfile(@PathVariable("userId") UUID userId, @CurrentUser UUID currentUserId) {
+    public UserProfileResponse getUserProfile(@PathVariable("userId") UUID userId, @CurrentUser UUID currentUserId) {
         return profileService.getProfileBasedOnRelation(userId, currentUserId);
     }
 

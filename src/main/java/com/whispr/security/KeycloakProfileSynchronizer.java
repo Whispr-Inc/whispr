@@ -2,7 +2,7 @@ package com.whispr.security;
 
 import com.whispr.dto.KeycloakUserDto;
 import com.whispr.entity.UserProfile;
-import com.whispr.repository.ProfileRepository;
+import com.whispr.repository.UserProfileRepository;
 import com.whispr.service.KeycloakAdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import java.util.UUID;
 public class KeycloakProfileSynchronizer implements ProfileSynchronizer {
 
     private final KeycloakAdminService keycloakService;
-    private final ProfileRepository profileRepository;
+    private final UserProfileRepository profileRepository;
     private final TransactionTemplate transactionTemplate;
 
     @Override

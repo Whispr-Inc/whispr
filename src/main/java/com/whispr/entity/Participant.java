@@ -20,7 +20,7 @@ public class Participant {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private UUID id;
 
     @Column(name = "conversation_id", nullable = false)
     private UUID conversationId;
