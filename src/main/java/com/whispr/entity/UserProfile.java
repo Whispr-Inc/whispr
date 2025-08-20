@@ -14,11 +14,12 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "profiles")
+@Table(name = "user_profile")
 @NoArgsConstructor
-public class Profile extends BaseEntity<UUID> {
+public class UserProfile extends BaseEntity<UUID> {
 
     @Id
+    @Column(name = "id", nullable = false)
     private UUID id;
 
     @Column(name = "username", nullable = false)

@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.whispr.entity.Profile;
+import com.whispr.entity.UserProfile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +19,7 @@ public class UserLookupService {
 
     public String getUserNameById(UUID userId) {
         try {
-            Profile profile = profileService.fetchProfileFromDB(userId);
+            UserProfile profile = profileService.fetchProfileFromDB(userId);
             return profile.getUsername();
         } catch (Exception e) {}
 
@@ -28,7 +28,7 @@ public class UserLookupService {
 
     public String getUserDisplayNameById(UUID userId) {
         try {
-            Profile profile = profileService.fetchProfileFromDB(userId);
+            UserProfile profile = profileService.fetchProfileFromDB(userId);
             return profile.getFirstName() + " " + profile.getLastName();
         } catch (Exception e) {}
 

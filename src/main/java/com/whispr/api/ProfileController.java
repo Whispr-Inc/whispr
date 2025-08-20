@@ -1,7 +1,7 @@
 package com.whispr.api;
 
 import com.whispr.dto.response.ProfileResponse;
-import com.whispr.entity.Profile;
+import com.whispr.entity.UserProfile;
 import com.whispr.security.CurrentUser;
 import com.whispr.service.ProfileService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class ProfileController {
     }
 
     @PatchMapping("/me")
-    public ResponseEntity<?> updateCurrentProfile(@CurrentUser UUID currentUserId, @RequestBody Profile profile) {
+    public ResponseEntity<?> updateCurrentProfile(@CurrentUser UUID currentUserId, @RequestBody UserProfile profile) {
         return ResponseEntity.ok(null);
     }
 

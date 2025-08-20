@@ -1,7 +1,7 @@
 package com.whispr.service;
 
 import com.whispr.dto.response.ProfileResponse;
-import com.whispr.entity.Profile;
+import com.whispr.entity.UserProfile;
 import com.whispr.enums.VisibilityScope;
 import com.whispr.mapper.ProfileMapper;
 import com.whispr.repository.ProfileRepository;
@@ -21,12 +21,12 @@ public class ProfileService {
     private final ProfileSynchronizer profileSynchronizer;
 
     public ProfileResponse getProfileForCurrentUser(UUID currentUserId) {
-        Profile profile = fetchProfileFromDB(currentUserId);
+        UserProfile profile = fetchProfileFromDB(currentUserId);
         return profileMapper.toProfileResponse(profile, VisibilityScope.SELF);
     }
 
     public ProfileResponse getProfileBasedOnRelation(UUID requestedUserId, UUID currentUserId) {
-        Profile profile = fetchProfileFromDB(requestedUserId);
+        UserProfile profile = fetchProfileFromDB(requestedUserId);
         VisibilityScope visibilityScope = determineVisibilityScope(requestedUserId, currentUserId);
         return profileMapper.toProfileResponse(profile, visibilityScope);
     }
@@ -42,7 +42,7 @@ public class ProfileService {
         return VisibilityScope.FRIENDS; // TODO: This should be replaced with actual logic
     }
 
-    protected Profile fetchProfileFromDB(UUID profileId) throws NoSuchElementException {
+    protected UserProfile fetchProfileFromDB(UUID profileId) throws NoSuchElementException {
         // Fetch the profile from the repository, or synchronize it if not found
         if (!profileRepository.existsById(profileId)) {
             profileSynchronizer.synchronizeProfile(profileId);

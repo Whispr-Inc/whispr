@@ -1,7 +1,7 @@
 package com.whispr.security;
 
 import com.whispr.dto.KeycloakUserDto;
-import com.whispr.entity.Profile;
+import com.whispr.entity.UserProfile;
 import com.whispr.repository.ProfileRepository;
 import com.whispr.service.KeycloakAdminService;
 import lombok.RequiredArgsConstructor;
@@ -53,11 +53,11 @@ public class KeycloakProfileSynchronizer implements ProfileSynchronizer {
         }
     }
 
-    private Profile upsertProfileInTransaction(UUID profileId, KeycloakUserDto kcUser) {
+    private UserProfile upsertProfileInTransaction(UUID profileId, KeycloakUserDto kcUser) {
         // Fetch the profile from the repository, or create a new one if it doesn't exist
-        Profile profile = profileRepository.findById(profileId)
+        UserProfile profile = profileRepository.findById(profileId)
             .orElseGet(() -> {
-                Profile newProfile = new Profile();
+                UserProfile newProfile = new UserProfile();
                 newProfile.setId(profileId);
                 return newProfile;
             });
@@ -69,7 +69,7 @@ public class KeycloakProfileSynchronizer implements ProfileSynchronizer {
         return profileRepository.save(profile);
     }
 
-    private void updateProfileFromKeycloak(Profile profile, KeycloakUserDto kcUser) {
+    private void updateProfileFromKeycloak(UserProfile profile, KeycloakUserDto kcUser) {
         profile.setUsername(kcUser.getUsername());
         profile.setEmail(kcUser.getEmail());
         profile.setFirstName(kcUser.getFirstName());

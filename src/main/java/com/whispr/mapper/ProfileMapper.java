@@ -3,13 +3,13 @@ package com.whispr.mapper;
 import org.springframework.stereotype.Component;
 
 import com.whispr.dto.response.ProfileResponse;
-import com.whispr.entity.Profile;
+import com.whispr.entity.UserProfile;
 import com.whispr.enums.VisibilityScope;
 
 @Component
 public class ProfileMapper {
-    
-    public ProfileResponse toProfileResponse(Profile profile, VisibilityScope visibilityScope) {
+
+    public ProfileResponse toProfileResponse(UserProfile profile, VisibilityScope visibilityScope) {
         if (profile == null) {
             return null;
         }
