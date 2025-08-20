@@ -50,7 +50,7 @@ CREATE TABLE participant (
         REFERENCES conversation(id) ON DELETE CASCADE
 );
 
-CREATE UNIQUE INDEX participant_unique_idx ON member (conversation_id, user_id);
+CREATE UNIQUE INDEX participant_unique_idx ON participant (conversation_id, user_id);
 
 
 CREATE TABLE message (
@@ -68,7 +68,7 @@ CREATE TABLE message (
     CONSTRAINT message_conversation_fk FOREIGN KEY (conversation_id)
         REFERENCES conversation(id) ON DELETE CASCADE,
     CONSTRAINT message_sender_fk FOREIGN KEY (sender_id)
-        REFERENCES member(id) ON DELETE CASCADE,
+        REFERENCES participant(id) ON DELETE CASCADE,
     CONSTRAINT message_type_check CHECK (type IN (
         'TEXT', 'IMAGE', 'VIDEO', 'AUDIO', 'FILE', 'STICKER', 'LOCATION', 'CONTACT', 'POLL', 'SYSTEM'
     ))
