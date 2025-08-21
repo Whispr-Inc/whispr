@@ -3,6 +3,6 @@ package com.whispr.dto.response;
 import lombok.Data;
 
 @Data
-public class ConversationResponse {
+public class ChatResponse {
 
 }

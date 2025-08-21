@@ -1,6 +1,6 @@
 package com.whispr.enums;
 
-public enum ConversationType {
+public enum ChatType {
     PRIVATE,        // 1-1 conversation
     GROUP,          // Multi-user conversation
     CHANNEL,        // Broadcast messages to a large audience

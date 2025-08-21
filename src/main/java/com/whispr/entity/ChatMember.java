@@ -13,17 +13,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "participant")
+@Table(name = "chat_member")
 @NoArgsConstructor
-public class Participant {
+public class ChatMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "conversation_id", nullable = false)
-    private UUID conversationId;
+    @Column(name = "chat_id", nullable = false)
+    private UUID chatId;
 
     @Column(name = "user_id", nullable = false)
     private UUID userId;

@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
-import com.whispr.enums.ConversationType;
+import com.whispr.enums.ChatType;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,9 +16,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "conversation")
+@Table(name = "chat")
 @NoArgsConstructor
-public class Conversation {
+public class Chat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -27,7 +27,7 @@ public class Conversation {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private ConversationType type;
+    private ChatType type;
 
     @Column(name = "title")
     private String title;

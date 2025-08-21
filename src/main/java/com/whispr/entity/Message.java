@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "conversation")
+@Table(name = "message")
 @NoArgsConstructor
 public class Message {
 
@@ -25,8 +25,8 @@ public class Message {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "conversation_id", nullable = false)
-    private UUID conversationId;
+    @Column(name = "chat_id", nullable = false)
+    private UUID chatId;
 
     @Column(name = "sender_id", nullable = false)
     private UUID senderId;
