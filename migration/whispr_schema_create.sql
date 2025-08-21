@@ -50,7 +50,7 @@ CREATE TABLE chat_member (
         REFERENCES chat (id) ON DELETE CASCADE
 );
 
-CREATE UNIQUE INDEX chat_member_unique_idx ON member (chat_id, user_id);
+CREATE UNIQUE INDEX chat_member_unique_idx ON chat_member (chat_id, user_id);
 
 
 CREATE TABLE message (
