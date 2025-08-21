@@ -49,7 +49,7 @@ public class Message {
     private Instant sentAt;
 
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "last_edited_at", nullable = false)
     private Instant updatedAt;
 
     @Column(name = "deleted_at")

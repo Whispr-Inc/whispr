@@ -62,7 +62,7 @@ CREATE TABLE message (
     thumbnail_url text,
     media_url text,
     sent_at timestamptz NOT NULL DEFAULT now(),
-    edited_at timestamptz,
+    last_edited_at timestamptz NOT NULL DEFAULT now(),
     deleted_at timestamptz,
     CONSTRAINT message_pk PRIMARY KEY (id),
     CONSTRAINT message_chat_fk FOREIGN KEY (chat_id)
