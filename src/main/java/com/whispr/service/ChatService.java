@@ -3,24 +3,23 @@ package com.whispr.service;
 import com.whispr.dto.response.ChatResponse;
 import com.whispr.mapper.ChatMapper;
 import com.whispr.repository.ChatRepository;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ChatService {
 
-    private final ChatRepository conversationRepository;
-    private final ChatMapper conversationMapper;
+    private final ChatRepository chatRepository;
+    private final ChatMapper chatMapper;
 
-    private final UserLookupService userLookupService;
-
-    public List<ChatResponse> listConversations(UUID userId) {
-        return new ArrayList<>();
+    public Page<ChatResponse> listConversations(@NonNull UUID currentUser, @NonNull Pageable pageable) {
+        return chatRepository.findAllUserChats(currentUser, pageable)
+            .map(chat -> chatMapper.toResponse(chat, currentUser));
     }
-
 }

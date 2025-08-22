@@ -15,7 +15,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "chat_member")
 @NoArgsConstructor
-public class ChatMember {
+public class ChatMember extends BaseEntity<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

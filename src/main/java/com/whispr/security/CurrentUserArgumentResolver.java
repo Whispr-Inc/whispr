@@ -35,6 +35,10 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
             }
         }
 
+        if (parameter.getParameterAnnotation(CurrentUser.class).required()) {
+            throw new IllegalArgumentException("Current user is required but not found in the security context.");
+        }
+
         return null;
     }
 }

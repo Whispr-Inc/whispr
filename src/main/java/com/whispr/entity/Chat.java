@@ -18,7 +18,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "chat")
 @NoArgsConstructor
-public class Chat {
+@NamedQuery(name = Chat.FIND_ALL_USER_CHATS,
+    query = "SELECT c FROM Chat c JOIN ChatMember cm ON cm.chatId = c.id WHERE cm.userId = :userId AND c.deletedAt IS NULL")
+public class Chat extends BaseEntity<UUID> {
+
+    public static final String FIND_ALL_USER_CHATS = "Chat.findAllUserChats";
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
